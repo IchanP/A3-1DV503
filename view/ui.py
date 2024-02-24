@@ -38,3 +38,8 @@ class ui:
 
     def get_password(self):
         return getpass("Enter your password: ")
+    
+    def print_dictionary(self, dictionary):
+        print("\n")
+        for key, value in dictionary.items():
+            print(f"{key}: {value}")

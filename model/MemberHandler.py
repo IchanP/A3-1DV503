@@ -4,7 +4,7 @@ from getpass import getpass
 from utils.password_management import hash_password, match_passwords
 from model.database import Database
 from model.Exception.nomember import NoMember
-class Member:
+class MemberHandler:
 
     def __init__(self, firstname=None, lastname=None, address=None, city=None, 
                  zip=None, phone=None, email=None, password=None):
@@ -19,14 +19,12 @@ class Member:
 
     
     def member_login(self, db, email, password):
-        foundMember = self.get_one_by_email(db, email)
+        foundMember = self._get_one_by_email(db, email)
 
         if foundMember == None:
             raise NoMember("No member found with that email")
 
         return match_passwords(password, foundMember[8])       
-
-
         
 
     def add_member(self, db: Database):
@@ -38,7 +36,7 @@ class Member:
 
 
 
-    def get_one_by_email(self, db: Database, email):
+    def _get_one_by_email(self, db: Database, email):
         query = """SELECT * FROM members WHERE email = %s""" 
         getByEmailValue = (email,)
         member = db.execute_and_fetchone(query, getByEmailValue)

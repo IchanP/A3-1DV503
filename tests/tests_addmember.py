@@ -1,5 +1,5 @@
 import unittest
-from model.member import Member
+from model.MemberHandler import MemberHandler
 from model.database import Database
 import os
 from dotenv import load_dotenv
@@ -12,7 +12,7 @@ class TestMemberValidation(unittest.TestCase):
 
     def __init__(self, methodName='AddMember'):
         super().__init__(methodName)
-        self.member = Member()
+        self.member = MemberHandler()
         self.member.firstname = "John"
         self.member.lastname = "Doe"
         self.member.address = "; DROP TABLE members; --"

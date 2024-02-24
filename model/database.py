@@ -15,19 +15,19 @@ class Database:
     def get_cursor(self):
         return self.connection.cursor()
     
-    def execute_and_fetchone(self, query, tuple):
+    def execute_and_fetchone(self, query, tuple = None):
         with self.get_cursor() as cursor:
             cursor.execute(query, tuple)
             return cursor.fetchone()
         
 
-    def execute_and_fetchall(self, query):
+    def execute_and_fetchall(self, query, tuple = None):
         with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
-            cursor.execute(query)
+            cursor.execute(query, tuple)
             return cursor.fetchall()
     
     #execute with commit
-    def execute_with_commit(self, query, tuple):
+    def execute_with_commit(self, query, tuple = None):
         with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
             cursor.execute(query, tuple)
             self.connection.commit()

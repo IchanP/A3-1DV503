@@ -1,5 +1,5 @@
 from view.ui import ui
-from model.member import Member
+from model.MemberHandler import MemberHandler
 from model.membervalidation import MemberValidation
 from model.Exception.nomember import NoMember
 from model.database import Database
@@ -16,7 +16,7 @@ class AccountController:
         while True:
             [firstname, lastname, address, city, zip, phone, email] = self.view.get_inputs(["First Name: ", "Last Name: ", "Street address: ", "City: ", "Zip: ", "Phone: ", "Email: "])
             password = self.view.get_password()
-            newMember = Member(firstname, lastname, address, city, zip, phone, email, password)
+            newMember = MemberHandler(firstname, lastname, address, city, zip, phone, email, password)
             member_validator = MemberValidation(newMember)
             if member_validator.is_there_errors() == False:
                 break
@@ -31,7 +31,7 @@ class AccountController:
     def member_login(self):
         [email] = self.view.get_inputs(["Enter your email: "])
         password = self.view.get_password()
-        member = Member()
+        member = MemberHandler()
         try:
             if member.member_login(self.db, email, password):
                 return True
@@ -47,7 +47,7 @@ class AccountController:
                 input("Press any key to continue")
                 return False
 
-    def try_add_member(self, newMember: Member):
+    def _try_add_member(self, newMember: MemberHandler):
         try: 
             newMember.add_member(self.db)
             print("Member added successfully")
