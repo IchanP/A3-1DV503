@@ -15,6 +15,12 @@ class Database:
     def get_cursor(self):
         return self.connection.cursor()
     
+    def execute_and_fetchone(self, query, tuple):
+        with self.get_cursor() as cursor:
+            cursor.execute(query, tuple)
+            return cursor.fetchone()
+        
+
     def execute_and_fetchall(self, query):
         with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
             cursor.execute(query)

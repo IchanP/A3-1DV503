@@ -1,5 +1,7 @@
 from model.database import Database
-from view.menu import print_option, get_choice
+from view.ui import ui
+
+view = ui()
 
 def list_employee(db:Database, limit, offset):
 
@@ -9,8 +11,8 @@ def list_employee(db:Database, limit, offset):
     print_name_ssn(employees)
     
     options = ["Previous Page", "Next Page", "Back to Employee Menu"]
-    print_option(options)
-    choice = get_choice(len(options))
+    view.print_options(options)
+    choice = view.get_choice(len(options))
 
     handle_list_choice(db, limit, offset, choice, options)
 
@@ -26,8 +28,8 @@ def handle_list_choice(db:Database, limit, offset, choice, options):
          list_employee(db, limit, offset-limit)
         else:
             print("No previous page")
-            print_option(options)
-            choice = get_choice(len(options))
+            view.print_options(options)
+            choice = view.get_choice(len(options))
             handle_list_choice(db, limit, offset, choice, options)
     elif choice == 2:
         list_employee(db, limit, offset+limit)
