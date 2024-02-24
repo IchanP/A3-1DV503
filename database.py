@@ -5,7 +5,11 @@ class Database:
     # establish connection to the db
     # THis __init__ method is called when the class is instantiated
     def __init__(self, username, password) -> None:
-        self.connection = connect(host="localhost", user=username, password=password, database="company") # TODO fix the database name
+        try:
+         self.connection = connect(host="localhost", user=username, password=password, database="book_store")
+        except Exception as e:
+            print(e)
+            print("Connection to database failed, check your enviorment variables and try again.")
 
     #get the cursor
     def get_cursor(self):
