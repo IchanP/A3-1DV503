@@ -1,6 +1,3 @@
-from database import Database
-
-
 def print_header(title):
     width = 46  # Width of the banner
     print("\n" + "*" * width)

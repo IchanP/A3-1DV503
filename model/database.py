@@ -21,7 +21,7 @@ class Database:
             return cursor.fetchall()
     
     #execute with commit
-    def execute_with_commit(self, query):
+    def execute_with_commit(self, query, tuple):
         with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
-            cursor.execute(query)
+            cursor.execute(query, tuple)
             self.connection.commit()

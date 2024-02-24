@@ -1,7 +1,7 @@
-from menu import print_header, print_option, get_choice
-from membervalidation import MemberValidation
+from view.menu import print_header, print_option, get_choice
+from model.membervalidation import MemberValidation
 from getpass import getpass
-
+from utils.password_management import hash_password
 class Member:
 
     def __init__(self):
@@ -28,22 +28,22 @@ class Member:
         self.email = input("Email: ") #varchar(40)
         self.password = getpass("Password: ") #varchar(200) 
         self.validate_member_input()
-        
-
+            
 
     def add_member(self, db):
-        x = "y"
+        hashed_password = hash_password(self.password)
+        try:
+            query = """INSERT INTO members (fname, lname, address, city, zip, phone, email, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"""
+            tuple = (self.firstname, self.lastname, self.address, self.city, self.zip, self.phone, self.email, hashed_password)
+            db.execute_with_commit(query, tuple)
+        except Exception as e:
+            if e.errno == 1062:
+                duplicate = e.msg.split("'")[1]
+                print(f"{duplicate} already exists please try again")
 
     def validate_member_input(self):
-        member_validation = MemberValidation()
-        member_validation.is_name_valid(self.firstname)
-        member_validation.is_name_valid(self.lastname)
-        member_validation.is_address_valid(self.address)
-        member_validation.is_city_valid(self.city)
-        member_validation.is_zip_valid(self.zip)
-        member_validation.is_phone_valid(self.phone)
-        member_validation.is_email_valid(self.email)
-        member_validation.is_password_valid(self.password)
+        member_validation = MemberValidation(self)
+
 
         if member_validation.is_there_errors():
             member_validation.print_errors()

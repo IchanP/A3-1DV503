@@ -1,5 +1,5 @@
-from database import Database
-from menu import print_option, get_choice
+from model.database import Database
+from view.menu import print_option, get_choice
 
 def list_employee(db:Database, limit, offset):
 

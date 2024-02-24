@@ -1,10 +1,10 @@
-from database import Database
+from model.database import Database
 from getpass import getpass
 from mysql.connector import connect
-from menu import print_header, print_option, get_choice
+from view.menu import print_header, print_option, get_choice
 from employee import list_employee, add_employee
 from dotenv import load_dotenv
-from member import Member
+from model.member import Member
 import os
 load_dotenv()
 username = os.getenv("db_username")
@@ -27,6 +27,7 @@ def main_menu(db:Database,options):
         elif choice == 2:
             member = Member()
             member.member_registration()
+            member.add_member(db)
         else:
             quit()
 
