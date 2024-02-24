@@ -34,11 +34,14 @@ class MemberHandler:
         addMemberValues = (self.firstname, self.lastname, self.address, self.city, self.zip, self.phone, self.email, hashed_password)
         db.execute_with_commit(addMemberQuery, addMemberValues)
 
-
+    def get_id_by_email(self, dB: Database, email):
+       query =  """SELECT userid FROM members WHERE email = %s"""
+       value = (email,)
+       return dB.execute_and_fetchone(query, value)[0]
 
     def _get_one_by_email(self, db: Database, email):
         query = """SELECT * FROM members WHERE email = %s""" 
         getByEmailValue = (email,)
-        member = db.execute_and_fetchone(query, getByEmailValue)
-        return member
-    
+        return db.execute_and_fetchone(query, getByEmailValue)
+
+

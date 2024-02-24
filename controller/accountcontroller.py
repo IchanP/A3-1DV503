@@ -25,27 +25,28 @@ class AccountController:
             choice = self.view.get_choice(2)
             if choice == 2:
                 break
-        self.try_add_member(newMember)
+        self._try_add_member(newMember)
 
 
     def member_login(self):
-        [email] = self.view.get_inputs(["Enter your email: "])
+        email = self.view.get_input("Enter your email: ")
         password = self.view.get_password()
         member = MemberHandler()
         try:
             if member.member_login(self.db, email, password):
-                return True
+                return email
             else:
                 print("\nInvalid password")
                 input("Press any key to continue")
-                return False
+                return None
         except Exception as e:
                 if isinstance(e, NoMember):
                     print(e)
                 else: 
                     print("An error occurred")
+                    print(e)
                 input("Press any key to continue")
-                return False
+                return None
 
     def _try_add_member(self, newMember: MemberHandler):
         try: 

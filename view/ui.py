@@ -29,6 +29,8 @@ class ui:
 
         return selectedOption
 
+    def get_input(self, userQuery):
+        return input(userQuery)
 
     def get_inputs(self, userQueries):
         answers = []

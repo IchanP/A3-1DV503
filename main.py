@@ -2,7 +2,7 @@ from model.database import Database
 from view.ui import ui
 from dotenv import load_dotenv
 from controller.accountcontroller import AccountController
-from controller.subjectcontroller import SubjectController
+from controller.bookcontroller import BookController
 import os
 
 load_dotenv()
@@ -12,7 +12,6 @@ password = os.getenv("db_password")
 db = Database(username, password)
 view = ui()
 acc_controller = AccountController(db, view)
-subj_controller = SubjectController(db, view)
 
 #Main menu
 def main_menu(options):
@@ -26,20 +25,22 @@ def main_menu(options):
         choice = view.get_choice(len(options))
 
         if choice == 1:
-      #     if acc_controller.member_login():
-                member_menu()
+           email = acc_controller.member_login()
+           if email != None:
+                member_menu(email)
         elif choice == 2:
             acc_controller.member_registration()
         else:
             quit()
 
-def member_menu():
+def member_menu(loggedInUser):
+    subj_controller = BookController(db, view, loggedInUser)
     while(True):
         view.print_header("Member Menu")
         options = ["Browse by Subject", "Search by Author/Title", "Check out", "Logout"]
         view.print_options(options)
         choice = view.get_choice(len(options))
-
+        
         if choice == 1:
             subj_controller.subject_menu()
         elif choice == 2:
