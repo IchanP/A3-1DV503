@@ -45,3 +45,14 @@ class ui:
         print("\n")
         for key, value in dictionary.items():
             print(f"{key}: {value}")
+
+    def get_int_input(self, userQuery):
+        try:
+            user_input = int(input(userQuery))
+            return user_input
+        except Exception as e:
+            if isinstance(e, ValueError) or isinstance(e, TypeError):
+                print("Please enter only numbers.")
+                return self.get_int_input(userQuery)
+            else:
+                print(e)

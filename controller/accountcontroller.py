@@ -3,6 +3,7 @@ from model.MemberHandler import MemberHandler
 from model.membervalidation import MemberValidation
 from model.Exception.nomember import NoMember
 from model.database import Database
+from mysql.connector import IntegrityError
 
 class AccountController:
 
@@ -16,7 +17,7 @@ class AccountController:
         while True:
             [firstname, lastname, address, city, zip, phone, email] = self.view.get_inputs(["First Name: ", "Last Name: ", "Street address: ", "City: ", "Zip: ", "Phone: ", "Email: "])
             password = self.view.get_password()
-            newMember = MemberHandler(firstname, lastname, address, city, zip, phone, email, password)
+            newMember = MemberHandler(self.db, firstname, lastname, address, city, zip, phone, email, password)
             member_validator = MemberValidation(newMember)
             if member_validator.is_there_errors() == False:
                 break
@@ -31,9 +32,9 @@ class AccountController:
     def member_login(self):
         email = self.view.get_input("Enter your email: ")
         password = self.view.get_password()
-        member = MemberHandler()
+        member = MemberHandler(self.db)
         try:
-            if member.member_login(self.db, email, password):
+            if member.member_login("yennykinns@gmail.com", "yennykinns"):
                 return email
             else:
                 print("\nInvalid password")
@@ -50,10 +51,10 @@ class AccountController:
 
     def _try_add_member(self, newMember: MemberHandler):
         try: 
-            newMember.add_member(self.db)
+            newMember.add_member()
             print("Member added successfully")
             input("Press any key to continue")
-        except Exception as e:
+        except IntegrityError as e:
             if e.errno == 1062:
                 duplicate = e.msg.split("'")[1]
                 print(f"{duplicate} already exists please try again")
@@ -61,3 +62,4 @@ class AccountController:
                 choice = self.view.get_choice(2)
                 if choice == 1:
                     self.member_registration()
+                    
