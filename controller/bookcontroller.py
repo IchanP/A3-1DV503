@@ -4,6 +4,7 @@ from model.BookHandler import BookHandler
 from model.CartHandler import CartHandler
 from model.MemberHandler import MemberHandler
 from mysql.connector.errors import ProgrammingError
+from utils.pagination_util import handle_forward_pagination, handle_backwards_pagination
 
 class BookController:
 
@@ -34,12 +35,16 @@ class BookController:
 # TODO Fix this garbage LOL
     def _books_by_subject_menu(self, subject):
         offset = 0
-        max_offset = None
+        LIMIT = 2
         while(True):
             try:
-                books = self.book_handler.book_fetch_by_sbuject(subject, 2, offset)
-                self._print_books(books)
-                # TODO figure out how to deal with next empty pagination.
+                books = self.book_handler.book_fetch_by_sbuject(subject, LIMIT + 1, offset)
+                # TODO if books required here? books could be None / null
+                is_next_page = len(books) > LIMIT
+                if is_next_page:
+                    books.pop()
+
+                self.view.print_list_of_dics(books)
                 
                 OPTION_ISBN = 1
                 OPTION_NEXT = 2
@@ -53,9 +58,10 @@ class BookController:
                 if choice == OPTION_ISBN:
                     self._handle_purchase_by_isbn(books)
                 if choice == OPTION_NEXT and is_next_page:
-                    offset, max_offset = self._handle_pagination(offset, max_offset, is_next_page)
+                    offset = handle_forward_pagination(offset, is_next_page)
+                    # TODO might need some logic here
                 elif choice == OPTION_PREV:
-                    offset = self._reduce_offset(offset)
+                    offset = handle_backwards_pagination(offset)
                 elif choice == OPTION_BACK:
                     break
 
@@ -73,34 +79,12 @@ class BookController:
         else:
             self.view.print_error("Invalid ISBN")
 
-
-    def handle_pagination(self, offset, max_offset, is_next_page):
-        if is_next_page:
-            return offset + 2, None  # 
-        else:
-            self.view.print_header("No next page")
-            return offset, offset  
-
-    def increase_offset(self, offset):
-        return offset+200
-
-    def reduce_offset(self, offset):
-        if offset-2 < 0:
-            self.view.print_header("No Previous Page")
-            return 0
-        else:
-            return offset-2
-
     def _isIsbn(self, isbn, books):  
         for book in books:
             if isbn == book["ISBN"]:
                 return True
         return False
     
-    def _print_books(self, books, ):
-        if books:
-            for book in books:
-              self.view.print_dictionary(book)
     
 
     # TODO i assume this can throw different types of errors

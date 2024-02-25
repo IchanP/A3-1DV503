@@ -41,6 +41,12 @@ class ui:
     def get_password(self):
         return getpass("Enter your password: ")
     
+
+    def print_list_of_dics(self, list_of_dics):
+        print("\n")
+        for dic in list_of_dics:
+            self.print_dictionary(dic)
+
     def print_dictionary(self, dictionary):
         print("\n")
         for key, value in dictionary.items():
