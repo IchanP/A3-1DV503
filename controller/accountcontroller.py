@@ -17,15 +17,21 @@ class AccountController:
         while True:
             [firstname, lastname, address, city, zip, phone, email] = self.view.get_inputs(["First Name: ", "Last Name: ", "Street address: ", "City: ", "Zip: ", "Phone: ", "Email: "])
             password = self.view.get_password()
+            
             newMember = MemberHandler(self.db, firstname, lastname, address, city, zip, phone, email, password)
+            
             member_validator = MemberValidation(newMember)
             if member_validator.is_there_errors() == False:
                 break
-            member_validator.print_errors()
-            self.view.print_options(["Register Again", "Back to Main Menu"])
-            choice = self.view.get_choice(2)
-            if choice == 2:
-                break
+            
+            else:
+                member_validator.print_errors()
+                OPTION_RETURN = 2
+                self.view.print_options(["Register Again", "Back to Main Menu"])
+                choice = self.view.get_choice(2)
+                if choice == OPTION_RETURN:
+                    break
+
         self._try_add_member(newMember)
 
 
@@ -39,7 +45,6 @@ class AccountController:
             else:
                 print("\nInvalid password")
                 input("Press any key to continue")
-                return None
         except Exception as e:
                 if isinstance(e, NoMember):
                     print(e)
@@ -53,13 +58,14 @@ class AccountController:
         try: 
             newMember.add_member()
             print("Member added successfully")
-            input("Press any key to continue")
         except IntegrityError as e:
             if e.errno == 1062:
                 duplicate = e.msg.split("'")[1]
                 print(f"{duplicate} already exists please try again")
-                self.view.print_options(["Register Again", "Back to Main Menu"])
-                choice = self.view.get_choice(2)
-                if choice == 1:
-                    self.member_registration()
-                    
+                self._handleIntegrityError()
+    
+    def _handleIntegrityError(self):
+        self.view.print_options(["Register Again", "Back to Main Menu"])
+        choice = self.view.get_choice(2)
+        if choice == 1:
+            self.member_registration()

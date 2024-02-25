@@ -56,3 +56,7 @@ class ui:
                 return self.get_int_input(userQuery)
             else:
                 print(e)
+    
+    def print_error(self, error):
+        print(f"{error}")
+        input()

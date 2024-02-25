@@ -27,7 +27,7 @@ class MemberHandler:
         return match_passwords(password, foundMember[8])       
         
 
-    def add_member(self, ):
+    def add_member(self):
         hashed_password = hash_password(self.password)
 
         addMemberQuery = """INSERT INTO members (fname, lname, address, city, zip, phone, email, password) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"""

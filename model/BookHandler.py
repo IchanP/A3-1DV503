@@ -13,7 +13,7 @@ class BookHandler:
             subjects.append(genres[0])
         return subjects
 
-    def book_fetch_by_sbuject(self, subject, limit, offset):
+    def book_fetch_by_subject(self, subject, limit, offset):
       query = """SELECT * FROM books WHERE subject = %s LIMIT %s OFFSET %s ;"""
       options_tuple = (subject, limit, offset)
       books_tuple = self.db.execute_and_fetchall(query, options_tuple)
