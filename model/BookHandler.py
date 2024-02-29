@@ -6,7 +6,7 @@ class BookHandler:
         self.db = db
 
     def fetch_list_of_subjects(self):
-        query = """SELECT subject FROM books GROUP BY subject"""
+        query = """SELECT subject FROM books GROUP BY subject ORDER BY subject ASC"""
         subjects_tuple = self.db.execute_and_fetchall(query)
         subjects = []
         for genres in subjects_tuple:

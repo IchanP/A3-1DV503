@@ -2,7 +2,7 @@ from view.ui import ui
 
 def handle_forward_pagination(view: ui, offset, is_next_page, amount):
     if is_next_page:
-        return offset + amount, None  # 
+        return offset + amount 
     else:
         view.print_header("No next page")
         return offset  
