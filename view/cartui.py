@@ -29,3 +29,14 @@ class CartUi(ui):
         total_price = sum(item['Price'] * item['Quantity'] for item in cart_items)
         print("-" * 105)  
         print("Total: {:>99}".format(f"${total_price:.2f}"))
+
+    def print_invoice(self, cart_items, order_id, user):
+        print("\n")
+        print(" " * 25 + "Invoice for Order no." + str(order_id))
+        print("Shipping Address")
+        print("Name: " + user["First Name"] + " " + user["Last Name"])
+        print("Address: " + user["Address"])
+        print(" " * 10 + user["City"])
+        print(" " * 10 + str(user["Zip"]))
+        self.print_contents(cart_items)
+        input("\nEnter any key to continue...")

@@ -40,8 +40,9 @@ class AccountController:
         password = self.view.get_password()
         member = MemberHandler(self.db)
         try:
-            if member.member_login(email, password):
-                return email
+            found_member = member.member_login(email, password)
+            if found_member:
+                return found_member
             else:
                 print("\nInvalid password")
                 input("Press any key to continue")

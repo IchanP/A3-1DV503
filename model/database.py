@@ -31,3 +31,9 @@ class Database:
         with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
             cursor.execute(query, tuple)
             self.connection.commit()
+    
+    def execute_with_commit_and_get_last_row(self, query, tuple = None):
+        with self.get_cursor() as cursor: # Using with statement to automatically close the cursor
+            cursor.execute(query, tuple)
+            self.connection.commit()
+            return cursor._last_insert_id

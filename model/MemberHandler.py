@@ -23,8 +23,8 @@ class MemberHandler:
         foundMember = self._get_full_member_by_email(email)
         if foundMember == None:
             raise NoMember("No member found with that email")
-
-        return match_passwords(password, foundMember[8])       
+        if match_passwords(password, foundMember[8]):
+            return self._member_to_dictionary(foundMember)
         
 
     def add_member(self):
@@ -59,3 +59,6 @@ class MemberHandler:
                 print("An error occurred")
                 print(e)
             
+    def _member_to_dictionary(self, member_info):
+        keys = ['First Name', 'Last Name', 'Address', 'City', 'Zip', 'Phone', 'Email', 'UserId']
+        return dict(zip(keys, member_info))

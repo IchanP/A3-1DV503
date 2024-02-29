@@ -25,9 +25,10 @@ def main_menu(options):
         choice = view.get_choice(len(options))
 
         if choice == OPTION_LOGIN:
-           email = acc_controller.member_login()
-           if email != None:
-                member_menu(email)
+           member = acc_controller.member_login()
+           if member != None:
+                print(member)
+                member_menu(member)
         elif choice == OPTION_REGISTER:
             acc_controller.member_registration()
         else:

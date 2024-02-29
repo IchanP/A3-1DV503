@@ -90,7 +90,7 @@ class BookController:
         if self._isIsbn(isbn, books):
             
             quanity = self.view.get_int_input("Enter quantity: ")
-            userid = self.member_handler.get_id_by_email(self.loggedInUser)
+            userid = self.loggedInUser["UserID"]
 
             self._add_book_to_cart(userid, isbn, quanity)
         else:
