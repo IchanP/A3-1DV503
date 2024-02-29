@@ -18,12 +18,22 @@ class BookHandler:
       options_tuple = (subject, limit, offset)
       books_tuple = self.db.execute_and_fetchall(query, options_tuple)
     
+      return self._tuple_to_list(books_tuple)
+
+    def book_fetch_by_author(self, author, limit, offset):
+      query = """SELECT * from books WHERE author like %s LIMIT %s OFFSET %s ;"""
+      options_tuple = (f"%{author}%", limit, offset)
+      books_tuple = self.db.execute_and_fetchall(query, options_tuple)
+
+      return self._tuple_to_list(books_tuple)
+    
+
+    def _tuple_to_list(self, tuple):
       list_of_books = []
-      for book in books_tuple:
+      for book in tuple:
         list_of_books.append(self._books_to_dictionary(book))
       return list_of_books
 
-    
     def _books_to_dictionary(self, book_info):
         keys = ['ISBN', 'Author', 'Title', 'Price', 'Subject']
         return dict(zip(keys, book_info))
