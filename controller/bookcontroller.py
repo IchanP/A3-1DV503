@@ -55,7 +55,6 @@ class BookController:
         offset = 0
         LIMIT = limit
         is_next_page = True
-
         search_value = self.view.get_input(input_message) if input_message else attribute
         while True:
             try:
@@ -74,7 +73,7 @@ class BookController:
                     is_next_page = True
                 elif choice == 4:
                     break
-            except ProgrammingError as e:
+            except Exception as e:
                 self.view.print_error(f"An error occurred: {e}\nPlease try again.")
 
     def _books_by_author_menu(self):
@@ -101,16 +100,14 @@ class BookController:
         for book in books:
             if isbn == book["ISBN"]:
                 return True
-        return False
-    
-    
+        return False   
 
     # TODO i assume this can throw different types of errors
     def _add_book_to_cart(self, userid, isbn, quantity):
         if self.cart_handler.add_book_to_cart(userid, isbn, quantity):
             print("Book successfully  added to cart")
         else: 
-            self.view.print_error("Failed to add book to cart") # TODO but why?
+            self.view.print_error("Failed to add book to cart") 
     
     def _handle_pagination(self, books, limit):
         is_next_page = len(books) > limit

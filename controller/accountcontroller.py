@@ -36,11 +36,11 @@ class AccountController:
 
 
     def member_login(self):
-        email = self.view.get_input("Enter your email: ")
+        email = "pontusgrandin6@gmail.com" # self.view.get_input("Enter your email: ")
         password = self.view.get_password()
         member = MemberHandler(self.db)
         try:
-            if member.member_login("yennykinns@gmail.com", "yennykinns"):
+            if member.member_login(email, password):
                 return email
             else:
                 print("\nInvalid password")
