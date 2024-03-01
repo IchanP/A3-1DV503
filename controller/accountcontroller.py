@@ -36,7 +36,7 @@ class AccountController:
 
 
     def member_login(self):
-        email = "pontusgrandin6@gmail.com" # self.view.get_input("Enter your email: ")
+        email = self.view.get_input("Enter your email: ")
         password = self.view.get_password()
         member = MemberHandler(self.db)
         try:
