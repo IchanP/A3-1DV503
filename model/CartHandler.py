@@ -24,7 +24,8 @@ class CartHandler:
         return self._tuple_to_list(cart_tuple)
 
     def empty_cart(self, userId):
-        query = """DELETE FROM cart WHERE userid = %s"""
+        query = """DELETE FROM cart WHE4
+        RE userid = %s"""
         value = (userId,)
         self.db.execute_with_commit(query, value)
         

@@ -83,14 +83,14 @@ class BookController:
         self._generic_books_menu(self.book_handler.book_fetch_by_title, 3, "Enter title:")
 
     def _books_by_subject_menu(self, subject):
-        self._generic_books_menu(self.book_handler.book_fetch_by_subject, 50, None, subject)
+        self._generic_books_menu(self.book_handler.book_fetch_by_subject, 2, None, subject)
     
     def _handle_purchase_by_isbn(self, books):
         isbn = self.view.get_input("Enter ISBN: ")
         if self._isIsbn(isbn, books):
             
             quanity = self.view.get_int_input("Enter quantity: ")
-            userid = self.loggedInUser["UserID"]
+            userid = self.loggedInUser["UserId"]
 
             self._add_book_to_cart(userid, isbn, quanity)
         else:
